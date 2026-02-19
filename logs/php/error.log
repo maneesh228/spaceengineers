@@ -1,0 +1,16 @@
+[15-Feb-2026 05:01:57 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\index.php on line 62
+[15-Feb-2026 05:02:51 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\index.php on line 62
+[15-Feb-2026 06:01:30 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\index.php on line 62
+[15-Feb-2026 06:27:18 UTC] PHP Parse error:  Unclosed '(' does not match '}' in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\functions.php on line 1215
+[15-Feb-2026 06:27:18 UTC] PHP Warning:  Trying to access array offset on value of type bool in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-includes\class-wp-recovery-mode-email-service.php on line 367
+[15-Feb-2026 06:27:18 UTC] PHP Warning:  Trying to access array offset on value of type bool in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-includes\class-wp-recovery-mode-email-service.php on line 368
+[17-Feb-2026 03:52:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function isEmpty() in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\front-page.php:60
+Stack trace:
+#0 C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-includes\template-loader.php(125): include()
+#1 C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-blog-header.php(19): require_once('C:\\Users\\mpmin\\...')
+#2 C:\Users\mpmin\Local Sites\spaceengineers\app\public\index.php(17): require('C:\\Users\\mpmin\\...')
+#3 {main}
+  thrown in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\front-page.php on line 60
+[18-Feb-2026 01:45:24 UTC] PHP Warning:  Undefined variable $contact_edit_link in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\functions.php on line 1230
+[18-Feb-2026 01:45:49 UTC] PHP Warning:  Undefined variable $contact_edit_link in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\functions.php on line 1230
+[18-Feb-2026 01:47:25 UTC] PHP Warning:  Undefined variable $contact_edit_link in C:\Users\mpmin\Local Sites\spaceengineers\app\public\wp-content\themes\spaceengineers\functions.php on line 1230

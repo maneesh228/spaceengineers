@@ -9,6 +9,7 @@
 
 -----------------------------------------------------------------------------------*/
 
+(function($) {
 
 $(function () {
 
@@ -28,12 +29,12 @@ $(function () {
         if (bodyScroll > 300) {
 
             navbar.addClass("nav-scroll");
-            logo.attr('src', 'img/logo-dark.png');
+            logo.attr('src', TEMPLATE_URI + '/img/logo-dark.png');
 
         } else {
 
             navbar.removeClass("nav-scroll");
-            logo.attr('src', 'img/logo-light.png');
+            logo.attr('src', TEMPLATE_URI + '/img/logo-light.png');
         }
     });
 
@@ -365,6 +366,7 @@ $(function () {
     $(".blog-grid .bg-pattern").css("height", blgImg);
 
 });
+})(jQuery);
 
 
 /* ===============================  Wow Animation  =============================== */
@@ -378,6 +380,7 @@ wow.init();
 
 // === window When Loading === //
 
+(function($) {
 $(window).on("load", function () {
 
 
@@ -450,6 +453,7 @@ $(window).on("load", function () {
 });
 
 
+
 /* ===============================  Preloader page  =============================== */
 
 paceOptions = {
@@ -458,10 +462,25 @@ paceOptions = {
     eventLag: false
 };
 
-Pace.on('done', function () {
+
+// Function to hide preloader
+function hidePreloader() {
     $('#preloader').addClass("isdone");
     $('.loading-text').addClass("isdone");
+}
+
+// Pace.js done event
+Pace.on('done', function () {
+    hidePreloader();
 });
+
+// Fallback: Force hide preloader after 5 seconds if Pace hasn't finished
+setTimeout(function() {
+    if (!$('#preloader').hasClass('isdone')) {
+        hidePreloader();
+    }
+}, 5000);
+
 
 
 /* ===============================  Scroll back to top  =============================== */
@@ -504,6 +523,7 @@ $(document).ready(function () {
 
 
 
+
 /* ===============================  Mouse effect  =============================== */
 
 function mousecursor() {
@@ -525,3 +545,5 @@ function mousecursor() {
 $(function () {
     mousecursor();
 });
+
+})(jQuery);
