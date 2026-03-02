@@ -3851,5 +3851,15 @@ body {
     letter-spacing: 1px; }
   .blog-pg.single .comments-area .item .info .replay {
     top: -25px; } }
-
+@media screen and (max-width: 767px) {
+  /* Mobile-specific CSS rules */
+      .slid-half .nofull {
+    position: relative;
+    overflow: hidden;
+    background-color: #252531;
+    background-image: url(../img/line-pattern1.png);
+    background-repeat: repeat;
+    height: 85vh;
+    color: #fff; }
+    }
 /* ====================== [ End Responsive ] ====================== */
