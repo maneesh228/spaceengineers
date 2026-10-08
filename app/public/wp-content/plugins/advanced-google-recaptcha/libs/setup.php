@@ -3,7 +3,7 @@
 /**
  * WP Captcha
  * https://getwpcaptcha.com/
- * (c) WebFactory Ltd, 2022 - 2025, www.webfactoryltd.com
+ * (c) WebFactory Ltd, 2022 - 2026, www.webfactoryltd.com
  */
 
 class WPCaptcha_Setup extends WPCaptcha
@@ -199,7 +199,8 @@ class WPCaptcha_Setup extends WPCaptcha
             'country_blocking_countries'              => '',
             'block_undetermined_countries'            => 0,
             'captcha'                                 => 'disabled',
-            'captcha_secret_key'                      => '',
+            'captcha_secret_key'                      => '',            
+            'captcha_challenge_text'                  => 'Are you human? Please solve:',
             'captcha_site_key'                        => '',
             'captcha_show_login'                      => 1,
             'captcha_show_wp_registration'            => 1,
@@ -667,7 +668,7 @@ class WPCaptcha_Setup extends WPCaptcha
             delete_option(WPCAPTCHA_META_KEY);
             delete_option(WPCAPTCHA_POINTERS_KEY);
             delete_option(WPCAPTCHA_NOTICES_KEY);
-            // phpcs:ignore db call warnings as we are using a custom table 
+            // phpcs:ignore db call warnings as we are using a custom table
             $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "wpc_login_fails"); // phpcs:ignore
             $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "wpc_accesslocks"); // phpcs:ignore
         }

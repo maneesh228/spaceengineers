@@ -2,7 +2,7 @@
 /**
  * WP Captcha
  * https://getwpcaptcha.com/
- * (c) WebFactory Ltd, 2022 - 2025, www.webfactoryltd.com
+ * (c) WebFactory Ltd, 2022 - 2026, www.webfactoryltd.com
  */
 
 class WPCaptcha_Tab_Login_Form extends WPCaptcha
@@ -117,7 +117,7 @@ class WPCaptcha_Tab_Login_Form extends WPCaptcha
         } else {
             $remote_address = 'unknown';
         }
-        
+
         echo '<span>List of IP addresses that will never be blocked. Enter one IP per line.<br>Your current IP is: <code>' . esc_html($remote_address) . '</code></span>';
         echo '</td></tr>';
 

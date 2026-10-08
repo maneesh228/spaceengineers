@@ -3,7 +3,7 @@
 /**
  * WP Captcha
  * https://getwpcaptcha.com/
- * (c) WebFactory Ltd, 2022 - 2025, www.webfactoryltd.com
+ * (c) WebFactory Ltd, 2022 - 2026, www.webfactoryltd.com
  */
 
 class WPCaptcha_Admin extends WPCaptcha
@@ -400,7 +400,7 @@ class WPCaptcha_Admin extends WPCaptcha
 
             <p class="text-center"><a href="#" class="button button-buy install-wp301">Install and activate the <u>free</u> WP 301 Redirects plugin</a></p>
 
-            <p><a href="https://wordpress.org/plugins/eps-301-redirects/" target="_blank">WP 301 Redirects</a> is a free WP plugin maintained by the same team as this WP Captcha plugin. It has <b>+250,000 users, 5-star rating</b>, and is hosted on the official WP repository.</p>
+            <p><a href="https://wordpress.org/plugins/eps-301-redirects/" target="_blank">WP 301 Redirects</a> is a free WP plugin maintained by the same team as this WP Captcha plugin. It has <b>+300,000 users, 5-star rating</b>, and is hosted on the official WP repository.</p>
             </div>';
     }
 

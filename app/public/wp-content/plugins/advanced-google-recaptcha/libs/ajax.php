@@ -3,7 +3,7 @@
 /**
  * WP Captcha
  * https://getwpcaptcha.com/
- * (c) WebFactory Ltd, 2022 - 2025, www.webfactoryltd.com
+ * (c) WebFactory Ltd, 2022 - 2026, www.webfactoryltd.com
  */
 
 class WPCaptcha_AJAX extends WPCaptcha
@@ -27,8 +27,8 @@ class WPCaptcha_AJAX extends WPCaptcha
         set_time_limit(300); //phpcs:ignore
 
         if(!isset($_REQUEST['tool'])){
-            wp_send_json_error(__('Unknown tool.', 'advanced-google-recaptcha')); 
-        } 
+            wp_send_json_error(__('Unknown tool.', 'advanced-google-recaptcha'));
+        }
 
         $tool = sanitize_key(wp_unslash($_REQUEST['tool']));
 
@@ -61,7 +61,7 @@ class WPCaptcha_AJAX extends WPCaptcha
             }
             $lock_id = intval($_POST['lock_id']);
 
-            // phpcs:ignore db call warning as we are using a custom table 
+            // phpcs:ignore db call warning as we are using a custom table
             $wpdb->update( // phpcs:ignore
                 $wpdb->wpcatcha_accesslocks,
                 array(
@@ -70,7 +70,7 @@ class WPCaptcha_AJAX extends WPCaptcha
                 array(
                     'accesslock_ID' => $lock_id
                 )
-            ); 
+            );
             wp_send_json_success(array('id' => $lock_id));
         } else if ($tool == 'delete_lock_log') {
             if(!isset($_POST['lock_id'])){
@@ -78,7 +78,7 @@ class WPCaptcha_AJAX extends WPCaptcha
             }
             $lock_id = intval($_POST['lock_id']);
 
-            // phpcs:ignore db call warning as we are using a custom table 
+            // phpcs:ignore db call warning as we are using a custom table
             $wpdb->delete( // phpcs:ignore
                 $wpdb->wpcatcha_accesslocks,
                 array(
@@ -92,7 +92,7 @@ class WPCaptcha_AJAX extends WPCaptcha
             }
             $fail_id = intval($_POST['fail_id']);
 
-            // phpcs:ignore db call warning as we are using a custom table 
+            // phpcs:ignore db call warning as we are using a custom table
             $wpdb->delete( // phpcs:ignore
                 $wpdb->wpcatcha_login_fails,
                 array(
@@ -192,7 +192,7 @@ class WPCaptcha_AJAX extends WPCaptcha
                     return new WP_Error('wpcaptcha_recaptchav2_failed', __("reCAPTCHA verification failed ", 'advanced-google-recaptcha') . (isset($response->{'error-codes'}) ? ': ' . implode(',', $response->{'error-codes'}) : ''));
                 }
             }
-        } 
+        }
     }
 
     /**
@@ -243,55 +243,55 @@ class WPCaptcha_AJAX extends WPCaptcha
     static function get_locks_logs() {
         global $wpdb;
         check_ajax_referer('wpcaptcha_run_tool');
-    
+
         if (!current_user_can('manage_options')) {
             wp_send_json_error(__('You are not allowed to run this action.', 'advanced-google-recaptcha'));
         }
-    
+
         $aColumns = array('accesslock_ID', 'unlocked', 'accesslock_date', 'release_date', 'reason', 'accesslock_IP');
-    
+
         $sLimit = '';
         if (isset($_GET['iDisplayStart']) && isset($_GET['iDisplayLength']) && $_GET['iDisplayLength'] != '-1') {
             $limit_offset = intval($_GET['iDisplayStart']);
             $limit_count = intval($_GET['iDisplayLength']);
             $sLimit = $wpdb->prepare(" LIMIT %d, %d", $limit_offset, $limit_count);
         }
-    
+
         $sOrder = '';
         $order_clauses = [];
         if (isset($_GET['iSortCol_0']) && isset($_GET['iSortingCols'])) {
             for ($i = 0; $i < intval($_GET['iSortingCols']); $i++) {
                 $iSortCol = isset($_GET['iSortCol_' . $i]) ? intval($_GET['iSortCol_' . $i]) : 0;
                 $sSortDir = isset($_GET['sSortDir_' . $i]) ? sanitize_key($_GET['sSortDir_' . $i]) : 'asc';
-    
+
                 if (isset($_GET['bSortable_' . $iSortCol]) && $_GET['bSortable_' . $iSortCol] === "true") {
                     $column = $aColumns[$iSortCol];
                     $dir = ($sSortDir === 'desc') ? 'DESC' : 'ASC';
                     $order_clauses[] = "`$column` $dir";
                 }
             }
-    
+
             if (!empty($order_clauses)) {
                 $sOrder = "ORDER BY " . implode(', ', $order_clauses);
             }
         }
-    
+
         $sWhere = '';
         $where_clauses = [];
         $query_vars = [];
-    
+
         if (!empty($_GET['sSearch'])) {
             $search_term = '%' . $wpdb->esc_like(sanitize_text_field(wp_unslash($_GET['sSearch']))) . '%'; //sanitize_text_field is used to sanitize according to WordPress PCP
             $sub_clauses = [];
-    
+
             foreach ($aColumns as $col) {
                 $sub_clauses[] = "`$col` LIKE %s";
                 $query_vars[] = $search_term;
             }
-    
+
             $where_clauses[] = '(' . implode(' OR ', $sub_clauses) . ')';
         }
-    
+
         for ($i = 0; $i < count($aColumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] === "true" && !empty($_GET['sSearch_' . $i])) {
                 $search_term = '%' . $wpdb->esc_like(sanitize_text_field(wp_unslash($_GET['sSearch_' . $i]))) . '%';
@@ -299,45 +299,45 @@ class WPCaptcha_AJAX extends WPCaptcha
                 $query_vars[] = $search_term;
             }
         }
-    
+
         if (!empty($where_clauses)) {
             $sWhere = "WHERE " . implode(' AND ', $where_clauses);
         }
-    
+
         $sql = "SELECT SQL_CALC_FOUND_ROWS " . implode(", ", $aColumns) .
             " FROM `{$wpdb->wpcatcha_accesslocks}` $sWhere $sOrder";
-    
+
         if (!empty($sLimit)) {
             $sql .= $sLimit;
         }
-    
+
         if (!empty($query_vars)) {
             $prepared_sql = $wpdb->prepare($sql, $query_vars); //phpcs:ignore
         } else {
             $prepared_sql = $sql;
         }
-    
+
         $rResult = $wpdb->get_results($prepared_sql); //phpcs:ignore
-    
+
         $iFilteredTotal = $wpdb->get_var("SELECT FOUND_ROWS()"); //phpcs:ignore
-    
+
         $iTotal = $wpdb->get_var("SELECT COUNT(`accesslock_ID`) FROM `{$wpdb->wpcatcha_accesslocks}`"); //phpcs:ignore
-    
+
         $output = array(
             "sEcho" => isset($_GET['sEcho']) ? intval($_GET['sEcho']) : '',
             "iTotalRecords" => $iTotal,
             "iTotalDisplayRecords" => $iFilteredTotal,
             "aaData" => array()
         );
-    
+
         foreach ($rResult as $aRow) {
             $row = array();
             $row['DT_RowId'] = $aRow->accesslock_ID;
-    
+
             if (strtotime($aRow->release_date) < time()) {
                 $row['DT_RowClass'] = 'lock_expired';
             }
-    
+
             foreach ($aColumns as $col) {
                 if ($col === 'unlocked') {
                     $unblocked = $aRow->$col;
@@ -355,18 +355,18 @@ class WPCaptcha_AJAX extends WPCaptcha
                     $row[] = '<a href="#" class="open-pro-dialog pro-feature" data-pro-feature="access-log-user-agent">Available in PRO</a>';
                 }
             }
-    
+
             $row[] = '<div data-lock-id="' . $aRow->accesslock_ID . '" class="tooltip delete_lock_entry" title="Delete Access Lock?" data-msg-success="Access Lock deleted" data-btn-confirm="Delete Access Lock" data-title="Delete Access Lock?" data-wait-msg="Deleting. Please wait." data-name=""><i class="wpcaptcha-icon wpcaptcha-trash"></i></div>';
             $output['aaData'][] = $row;
         }
-    
+
         @ob_end_clean();
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
         echo json_encode($output);
         die();
     }
-    
+
 
     /**
      * Fetch activity logs and output JSON for datatables
@@ -376,58 +376,58 @@ class WPCaptcha_AJAX extends WPCaptcha
     static function get_activity_logs() {
         global $wpdb;
         check_ajax_referer('wpcaptcha_run_tool');
-    
+
         if (!current_user_can('manage_options')) {
             wp_send_json_error(__('You are not allowed to run this action.', 'advanced-google-recaptcha'));
         }
-    
+
         $options = WPCaptcha_Setup::get_options();
-    
+
         $aColumns = array('login_attempt_ID', 'login_attempt_date', 'failed_user', 'failed_pass', 'login_attempt_IP', 'reason');
-    
+
         $sLimit = '';
         if (isset($_GET['iDisplayStart']) && isset($_GET['iDisplayLength']) && $_GET['iDisplayLength'] != '-1') {
             $sLimit = "LIMIT %d, %d";
             $limit_offset = intval($_GET['iDisplayStart']);
             $limit_count = intval($_GET['iDisplayLength']);
         }
-    
+
         $sOrder = '';
         $order_clauses = [];
         if (isset($_GET['iSortCol_0']) && isset($_GET['iSortingCols'])) {
             for ($i = 0; $i < intval($_GET['iSortingCols']); $i++) {
                 $iSortCol = isset($_GET['iSortCol_' . $i]) ? intval($_GET['iSortCol_' . $i]) : 0;
                 $sSortDir = isset($_GET['sSortDir_' . $i]) ? sanitize_key($_GET['sSortDir_' . $i]) : 'asc';
-    
+
                 if (isset($_GET['bSortable_' . $iSortCol]) && $_GET['bSortable_' . $iSortCol] === "true") {
                     $column = $aColumns[$iSortCol];
                     $dir = ($sSortDir === 'desc') ? 'DESC' : 'ASC';
                     $order_clauses[] = "`$column` $dir";
                 }
             }
-    
+
             if (!empty($order_clauses)) {
                 $sOrder = "ORDER BY " . implode(', ', $order_clauses);
             }
         }
-    
+
         // filtering
         $sWhere = '';
         $where_clauses = [];
         $query_vars = [];
-    
+
         if (!empty($_GET['sSearch'])) {
             $search_term = '%' . $wpdb->esc_like(sanitize_text_field(wp_unslash($_GET['sSearch']))) . '%'; //sanitize_text_field is used to sanitize according to WordPress PCP
             $sub_clauses = [];
-    
+
             foreach ($aColumns as $col) {
                 $sub_clauses[] = "`$col` LIKE %s";
                 $query_vars[] = $search_term;
             }
-    
+
             $where_clauses[] = '(' . implode(' OR ', $sub_clauses) . ')';
         }
-    
+
         for ($i = 0; $i < count($aColumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] === "true" && !empty($_GET['sSearch_' . $i])) {
                 $search_term = '%' . $wpdb->esc_like(sanitize_text_field(wp_unslash($_GET['sSearch_' . $i]))) . '%';
@@ -435,35 +435,35 @@ class WPCaptcha_AJAX extends WPCaptcha
                 $query_vars[] = $search_term;
             }
         }
-    
+
         if (!empty($where_clauses)) {
             $sWhere = "WHERE " . implode(' AND ', $where_clauses);
         }
-    
+
         // build query
         $sql = "SELECT SQL_CALC_FOUND_ROWS " . implode(", ", $aColumns) .
             " FROM " . $wpdb->wpcatcha_login_fails . " $sWhere $sOrder";
-    
+
         if (!empty($sLimit)) {
             $sql .= " " . $wpdb->prepare("LIMIT %d, %d", $limit_offset, $limit_count);//phpcs:ignore
         }
-    
+
         //phpcs:ignore because the query parts are dynamic based on the number of columns
         if (!empty($query_vars)) {
             $prepared_sql = $wpdb->prepare($sql, $query_vars);//phpcs:ignore
         } else {
             $prepared_sql = $sql;
         }
-    
+
         $rResult = $wpdb->get_results($prepared_sql); //phpcs:ignore
-    
+
         // filtered count
         $iFilteredTotal = $wpdb->get_var("SELECT FOUND_ROWS()"); //phpcs:ignore
-    
+
         // total count
         //phpcs: no need to prepare, $sIndexColumn
         $iTotal = $wpdb->get_var("SELECT COUNT(`login_attempt_ID`) FROM {$wpdb->wpcatcha_login_fails}"); //phpcs:ignore
-    
+
         // output formatting
         $output = array(
             "sEcho" => isset($_GET['sEcho']) ? intval($_GET['sEcho']) : '',
@@ -471,11 +471,11 @@ class WPCaptcha_AJAX extends WPCaptcha
             "iTotalDisplayRecords" => $iFilteredTotal,
             "aaData" => array()
         );
-    
+
         foreach ($rResult as $aRow) {
             $row = array();
             $row['DT_RowId'] = $aRow->login_attempt_ID;
-    
+
             foreach ($aColumns as $col) {
                 if ($col == 'login_attempt_date') {
                     $row[] = self::get_date_time(strtotime($aRow->$col));
@@ -492,12 +492,12 @@ class WPCaptcha_AJAX extends WPCaptcha
                     $row[] = WPCaptcha_Functions::pretty_fail_errors($aRow->$col);
                 }
             }
-    
+
             $row[] = '<div data-failed-id="' . $aRow->login_attempt_ID . '" class="tooltip delete_failed_entry" title="Delete failed login attempt log entry" data-msg-success="Failed login attempt log entry deleted" data-btn-confirm="Delete failed login attempt log entry" data-title="Delete failed login attempt log entry" data-wait-msg="Deleting. Please wait." data-name=""><i class="wpcaptcha-icon wpcaptcha-trash"></i></div>';
-    
+
             $output['aaData'][] = $row;
         }
-    
+
         @ob_end_clean();
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');

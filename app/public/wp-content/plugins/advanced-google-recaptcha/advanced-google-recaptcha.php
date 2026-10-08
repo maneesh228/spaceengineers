@@ -3,16 +3,16 @@
   Plugin Name: Advanced Google reCAPTCHA
   Plugin URI: https://getwpcaptcha.com/
   Description: Advanced Google reCAPTCHA will safeguard your WordPress site from spam comments and brute force attacks. With this plugin, you can easily add Google reCAPTCHA to WordPress comment form, login form and other forms.
-  Version: 1.31
+  Version: 1.35
   Author: WebFactory Ltd
   Author URI: https://www.webfactoryltd.com/
   License: GNU General Public License v3.0
   Text Domain: advanced-google-recaptcha
   Requires at least: 4.9
-  Tested up to: 6.9
+  Tested up to: 7.0
   Requires PHP: 5.2
 
-  Copyright 2023 - 2025  WebFactory Ltd  (email: support@webfactoryltd.com)
+  Copyright 2023 - 2026  WebFactory Ltd  (email: support@webfactoryltd.com)
   Copyright 2021 - 2023  WP Concern
 
   This program is free software; you can redistribute it and/or modify
@@ -106,7 +106,7 @@ class WPCaptcha
             // admin actions
             add_action('admin_action_wpcaptcha_install_template', array('WPCaptcha_Functions', 'install_template'));
             add_action('admin_action_wpcaptcha_install_wp301', array('WPCaptcha_Functions', 'install_wp301'));
-            
+
             // AJAX endpoints
             add_action('wp_ajax_wpcaptcha_run_tool', array('WPCaptcha_AJAX', 'ajax_run_tool'));
         }  else {
@@ -160,6 +160,9 @@ class WPCaptcha
                 add_action( 'woocommerce_review_order_before_submit', array('WPCaptcha_Functions', 'captcha_fields_print'));
                 add_action( 'woocommerce_review_order_before_submit', array('WPCaptcha_Functions', 'login_scripts_print'));
                 add_action( 'woocommerce_checkout_process', array('WPCaptcha_Functions', 'check_woo_checkout_form'));
+                add_action( 'woocommerce_pay_order_before_submit', array('WPCaptcha_Functions', 'login_scripts_print'), 10);
+                add_action( 'woocommerce_pay_order_before_submit', array('WPCaptcha_Functions', 'captcha_fields_print'), 11);
+                add_action( 'woocommerce_before_pay_action', array('WPCaptcha_Functions', 'check_woo_order_pay'));
             }
 
             // Handle Easy Digital Downloads registration

@@ -2,7 +2,7 @@
 /**
  * WP Captcha
  * https://getwpcaptcha.com/
- * (c) WebFactory Ltd, 2022 - 2025, www.webfactoryltd.com
+ * (c) WebFactory Ltd, 2022 - 2026, www.webfactoryltd.com
  */
 
 class WPCaptcha_Tab_Captcha extends WPCaptcha
@@ -55,6 +55,11 @@ class WPCaptcha_Tab_Captcha extends WPCaptcha
         echo '<br /><span>Captcha or "are you human" verification ensures bots can\'t attack your login page and provides additional protection with minimal impact to users.</span>';
         echo '</td></tr>';
 
+        echo '<tr class="captcha_challenge_text" style="display:none;" valign="top">
+        <th scope="row"><label for="captcha_challenge_text">Captcha Challenge Text</label></th>
+        <td><input type="text" class="regular-text" id="captcha_challenge_text" name="' . esc_attr(WPCAPTCHA_OPTIONS_KEY) . '[captcha_challenge_text]" value="' . (!empty($options['captcha_challenge_text']) ? esc_html($options['captcha_challenge_text']) : 'Are you human? Please solve:') . '"  />';
+        echo '</td></tr>';
+
         echo '<tr class="captcha_keys_wrapper" style="display:none;" valign="top">
         <th scope="row"><label for="captcha_site_key">Captcha Site Key</label></th>
         <td><input type="text" class="regular-text" id="captcha_site_key" name="' . esc_attr(WPCAPTCHA_OPTIONS_KEY) . '[captcha_site_key]" value="' . esc_html($options['captcha_site_key']) . '" data-old="' . esc_html($options['captcha_site_key']) . '" />';
@@ -81,7 +86,7 @@ class WPCaptcha_Tab_Captcha extends WPCaptcha
             <option value="1.0" class="pro-option">1.0</option>
         </select>';
         echo '<br /><span>reCAPTCHA v3 returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot)</span>';
-        
+
         echo '</td></tr>';
 
         echo '<tr class="captcha_verify_wrapper" style="display:none;" valign="top">
